@@ -1,0 +1,35 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %} DELETE NEWS {% endblock title %}
+
+
+{% block content %}
+    <table>
+        <thead>
+            <th>
+                Дата
+            </th>
+            <th>
+                Заголовок
+            </th>
+            <th>
+                Краткое содержание
+            </th>
+      </thead>
+        <tr>
+             <td>
+                {{ news.date }}
+            </td>
+            <td>
+                {{ news.header }}
+            </td>
+            <td>
+                {{ news.description }}
+            </td>
+        </tr>
+    </table>
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить"></form>
+
+{% endblock content %}

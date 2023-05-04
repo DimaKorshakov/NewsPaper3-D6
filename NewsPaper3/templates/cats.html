@@ -1,0 +1,18 @@
+
+
+{% block content %}
+
+{% include 'news_detail.html' %}
+    <button> <a href="{% url 'subscribe' category.id  %}"> Подписаться на категорию {{ category.name }} </a> </button>
+
+    <button> <a href="{% url 'unsubscribe' category.id  %}"> Отписаться от категории {{ category.name }} </a> </button>
+
+
+<ul>
+  {% for news in category.news_set.all %}
+    <li>{{ news.header }}</li>
+  {% empty %}
+    <li>В этой категории нет новостей</li>
+  {% endfor %}
+
+    {% endblock content %}

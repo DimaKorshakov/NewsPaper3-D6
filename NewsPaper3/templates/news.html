@@ -1,0 +1,73 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %} AllNEWS {% endblock title %}
+
+
+{% block content %}
+<a href="{% url 'news_create' %}">Добавить новую новость</a> <br>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form }} <!-- Теперь нам нужна только готовая форма и кнопка -->
+    <input type="submit" value="Отправить">
+</form>
+
+    <table>
+        <thead>
+            <th>
+                Заголовок
+            </th>
+            <th>
+                Дата
+            </th>
+            <th>
+                Краткое содержание
+            </th>
+        </thead>
+        {% for news in filter.qs %}
+         <tr>
+             <td>
+                 <a href="{% url 'news_detail' news.id %}">{{ news.header|title }}</a> <!-- При нажатии на имя товара в таблице нас теперь будет перекидывать на страницу с информацией о товаре -->
+                 <a href="{% url 'news_update' news.id %}"><u>Редактировать</u></a>
+                 <a href="{% url 'news_delete' news.id %}"><u> Удалить </u></a>
+
+             </td>
+
+             <td>
+                {{ news.date }}
+             </td>
+             <td>
+                {{ news.header|title }}
+             </td>
+             <td>
+                {{ news.description }}
+             </td>
+             <td>
+                {{ news.category }}
+             </td>
+         </tr>
+        {% endfor %}
+    </table>
+
+        {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a>{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">>>></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+
+
+
+{% endblock content %}

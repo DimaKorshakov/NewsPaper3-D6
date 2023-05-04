@@ -1,0 +1,9 @@
+{% include 'flatpages/default.html' %}
+
+{% block content %}
+<h2> Категории новостей </h2>
+
+{% for c in category %}
+<li><a href={{ c.get_absolute_url }}>{{ c.name }}</a></li>
+{% endfor %}
+{% endblock %}
